@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="sign up.css">
+    <title>Document</title>
+</head>
+<body>
+    <img src="netflix_logo-removebg-preview.png">
+    <div class="box">
+        <h1>Create a password to start your membership</h1>
+        <p>Just a few more steps and you're done!</p>
+        <p class="p2"> We hate paperwork,too.</p>
+        <form id="signup" onsubmit="signUp" action="#">
+            <input  type="email" name="email" placeholder="Email" autocomplete="email">
+            <input name="password" type="password"class="pass" placeholder="Add a password" autocomplete="new-password">
+            <button type="submit">Next</button>
+        </form>
+    </div>
+    <script>
+        const signUpForm = document.getElementById("signup");
+
+        signUpForm.addEventListener('submit',function (e) {
+            e.preventDefault()
+            console.log("sign up");
+            const payload = new FormData(signUpForm);
+            const data = Object.fromEntries(payload)
+            console.log(data);
+
+            fetch('http://localhost:3000/api/v1/auth/signup', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(data => {
+                window.alert(data.msg);
+            })
+            .catch(err => console.log(err))    
+        })
+
+    </script>
+</body>
+</html>
